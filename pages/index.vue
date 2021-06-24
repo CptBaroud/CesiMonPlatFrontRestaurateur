@@ -1,0 +1,57 @@
+<template>
+  <v-container fluid>
+    <v-row>
+      <v-col
+        lg="6"
+        md="12"
+      >
+        <v-card
+          flat
+          color="background"
+        >
+          <v-card-title>
+            Vos commandes en attente
+          </v-card-title>
+          <v-card-text>
+            <v-data-iterator
+              :items="order"
+              no-data-text="Vous n'avez pas encore de commande en attente"
+              no-results-text="Aucune commande ne correspond a votre recherche"
+            >
+              <template #default="{items}">
+                <v-row>
+                  <v-col
+                    v-for="item in items"
+                    :key="item._id"
+                    cols="6"
+                  >
+                    <orderCard
+                      :item="item"
+                    />
+                  </v-col>
+                </v-row>
+              </template>
+            </v-data-iterator>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+import orderCard from '../components/orderCard'
+
+export default {
+  components: {
+    orderCard
+  },
+  computed: {
+    order: {
+      get () {
+        return this.$store.getters['order/order'].filter(object => object.status === 'pending')
+      }
+    }
+  }
+}
+</script>
