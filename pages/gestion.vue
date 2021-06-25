@@ -2,7 +2,7 @@
   <v-container class="mt-2">
     <v-row>
       <v-col
-        cols="7"
+        cols="8"
       >
         <!-- Menu Card -->
         <v-card
@@ -169,6 +169,7 @@
                   prepend-inner-icon="mdi-magnify"
                   label="Recherche"
                 />
+                <v-spacer />
               </v-card-title>
               <v-card-text>
                 <v-data-table
@@ -332,7 +333,7 @@
                   <v-btn
                     text
                     rounded
-                    @click="menuModal = false"
+                    @click="articleModal = false"
                   >
                     Annuler
                   </v-btn>
@@ -344,7 +345,7 @@
                   right
                   icon
                   color="error"
-                  @click="menuModal = false"
+                  @click="articleModal = false"
                 >
                   <v-icon>
                     mdi-close
@@ -359,12 +360,23 @@
               flat
               rounded="xl"
             >
+              <v-card-title>
+                <v-text-field
+                  v-model="articleSearch"
+                  filled
+                  rounded
+                  prepend-inner-icon="mdi-magnify"
+                  label="Recherche"
+                />
+                <v-spacer />
+              </v-card-title>
               <v-card-text>
                 <v-data-table
                   :items="article"
                   :headers="articleHeader"
                   :page="articlePage"
                   :items-per-page="articleItemPerPages"
+                  :search="articleSearch"
                   hide-default-footer
                   no-data-text="Vous n'avez pas encore d'article ajoutez en !"
                   no-results-text="Aucune commande ne correspond a votre recherche"
@@ -415,7 +427,7 @@
         </v-card>
       </v-col>
       <v-col
-        cols="3"
+        cols="4"
       >
         <v-card
           class="mt-2"
@@ -424,42 +436,67 @@
           rounded="xl"
         >
           <v-card-title>
-            Toutes vos commandes
-            <v-spacer />
+            Informations de l'entreprise
           </v-card-title>
           <v-card-text>
             <v-card
-              color="secondary"
-              flat
               rounded="xl"
+              flat
+              color="secondary"
             >
               <v-card-text>
-                <v-data-iterator
-                  :items="order"
-                  no-data-text="Vous n'avez pas encore de commande en attente"
-                  no-results-text="Aucune commande ne correspond a votre recherche"
-                >
-                  <template #default="{items}">
-                    <v-row>
-                      <v-col
-                        v-for="item in items"
-                        :key="item._id"
-                      >
-                        <orderCard
-                          :item="item"
-                        />
-                      </v-col>
-                    </v-row>
-                  </template>
-                </v-data-iterator>
+                <v-text-field
+                  v-model="restaurantData.name"
+                  filled
+                  rounded
+                  placeholder="Prénom"
+                />
+                <v-textarea
+                  v-model="restaurantData.description"
+                  filled
+                  auto-grow
+                  rounded
+                  placeholder="Nom"
+                />
+                <v-list-item class="mb-4">
+                  <v-list-item-avatar style="border: solid var(--v-primary-base) 2px" size="96">
+                    <v-img v-if="restaurantData.logo" :src="restaurantData.logo" />
+                    <v-icon v-else>
+                      mdi-camera
+                    </v-icon>
+                  </v-list-item-avatar>
+                  <v-list-item-content>
+                    <v-form
+                      ref="uploadProfilePictureForm"
+                      v-model="uploadLogoValid"
+                      lazy-validation
+                    >
+                      <v-file-input
+                        v-model="uploadLogoItem"
+                        style="max-width: 356px"
+                        accept="image/png, image/jpeg, image/bmp"
+                        rounded
+                        hide-details
+                        filled
+                      />
+                    </v-form>
+                  </v-list-item-content>
+                  <v-list-item-action>
+                    <v-btn
+                      class="ml-4"
+                      rounded
+                      color="primary"
+                      :disabled="!uploadLogoValid"
+                      @click="uploadPicture"
+                    >
+                      Modifier
+                    </v-btn>
+                  </v-list-item-action>
+                </v-list-item>
               </v-card-text>
             </v-card>
           </v-card-text>
         </v-card>
-      </v-col>
-      <v-col
-        cols="2"
-      >
         <!-- Category card -->
         <v-card
           class="mt-2"
@@ -856,13 +893,9 @@
 </template>
 
 <script>
-import orderCard from '../components/orderCard'
-
 export default {
   name: 'Gestion',
-  components: {
-    orderCard
-  },
+  middleware: 'auth',
   data () {
     return {
       // Ajout d'un article
@@ -897,10 +930,6 @@ export default {
           value: 'ingredient'
         },
         {
-          text: 'Tags',
-          value: 'tags'
-        },
-        {
           text: 'Catégorie',
           value: 'category'
         },
@@ -911,7 +940,8 @@ export default {
         {
           text: '',
           value: 'action',
-          sortable: false
+          sortable: false,
+          width: 100
         }
       ],
 
@@ -976,6 +1006,7 @@ export default {
       menuEditModal: false,
       menuEditValid: false,
 
+      // Ajout d'une catégorie
       categorySearch: '',
       categoryAdd: {
         name: '',
@@ -985,6 +1016,11 @@ export default {
       categoryModal: '',
       categoryValid: false,
 
+      // Upload d'un logo pour pour le restaurant
+      uploadLogoItem: {},
+      uploadLogoValid: false,
+
+      // Data
       categoryArray: [
         {
           value: 1,
@@ -1051,6 +1087,12 @@ export default {
 
     menuLength () {
       return Math.ceil(this.menu.length / this.menuItemPerPages)
+    },
+
+    restaurantData: {
+      get () {
+        return this.$auth.user.restaurant
+      }
     }
   },
   methods: {
@@ -1131,7 +1173,7 @@ export default {
       this.$store.dispatch('article/add', this.articleAdd)
         .then((response) => {
           if (response.status === 200) {
-            this.articleAdd = false
+            this.articleModal = false
             this.articleAdd = {
               name: '',
               description: '',
@@ -1177,7 +1219,7 @@ export default {
     editMenu () {
       this.$store.dispatch('menu/edit', {
         token: this.$auth.getToken('local'),
-        item: this.articleEditData
+        item: this.menuEditData
       })
         .then((response) => {
           if (response.status === 200) {
@@ -1206,6 +1248,25 @@ export default {
 
     pullIngredient (itemIndex) {
       this.articleAdd.ingredient.splice(itemIndex, 1)
+    },
+
+    uploadPicture () {
+      const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = () => resolve(reader.result)
+        reader.onerror = error => reject(error)
+      })
+
+      toBase64(this.uploadLogoItem).then((response) => {
+        this.$store.dispatch('restaurant/updateLogo', {
+          token: this.$auth.getToken('local'),
+          type: this.uploadLogoItem.type,
+          name: this.uploadLogoItem.name,
+          restaurant: this.$auth.user.restaurant._id,
+          file: response
+        })
+      })
     },
 
     /**

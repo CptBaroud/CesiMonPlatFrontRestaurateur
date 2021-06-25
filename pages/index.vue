@@ -46,6 +46,7 @@ export default {
   components: {
     orderCard
   },
+  middleware: 'auth',
   computed: {
     order: {
       get () {

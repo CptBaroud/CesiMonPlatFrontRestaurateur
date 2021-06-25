@@ -205,6 +205,7 @@
 <script>
 export default {
   name: 'Profil',
+  middleware: 'auth',
   data () {
     return {
       uploadProfilPictureItem: {},

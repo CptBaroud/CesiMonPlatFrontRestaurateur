@@ -41,5 +41,26 @@ export default {
           reject(onerror)
         })
     })
+  },
+
+  edit (context, data) {
+    const token = data.token
+    delete data.token
+
+    return new Promise((resolve, reject) => {
+      axios.put(process.env.api_url + '/menu', data.item, {
+        headers: {
+          authorization: token
+        }
+      })
+        .then((response) => {
+          context.commit('editMenu', response.data)
+          resolve(response)
+        }).catch((e) => {
+        // eslint-disable-next-line no-console
+          console.error(e)
+          reject(onerror)
+        })
+    })
   }
 }

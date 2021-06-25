@@ -29,7 +29,7 @@
               </template>
               <template #default="{items}">
                 <v-row>
-                  <v-col v-for="(item,i) in items" :key="i">
+                  <v-col v-for="item in items" :key="item.name">
                     <order-card
                       :item="item"
                     />

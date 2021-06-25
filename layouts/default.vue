@@ -5,7 +5,7 @@
         v-show="$auth.loggedIn"
         v-model="drawer"
         :mini-variant="miniVariant"
-        mini-variant-width="5em"
+        mini-variant-width="6em"
         fixed
         color="secondary"
         elevation="0"
@@ -16,12 +16,11 @@
           class="my-4"
         >
           <img
-            v-if="!miniVariant"
-            width="128"
+            width="48"
             height="64"
             class="ml-4 mt-8 mb-8"
             alt="Login"
-            src="https://www.positivethinking.tech/wp-content/uploads/2021/01/Logo-Vuejs.png"
+            :src="logo"
           >
           <v-list-item
             v-for="(item, i) in items"
@@ -152,14 +151,14 @@ export default {
           to: '/'
         },
         {
-          icon: 'mdi-food',
-          title: 'Restaurants',
-          to: '/restaurant'
-        },
-        {
           icon: 'mdi-clipboard-text-multiple-outline',
           title: 'Commandes',
           to: '/order'
+        },
+        {
+          icon: 'mdi-chart-line-variant',
+          title: 'Statistiques',
+          to: '/stats'
         },
         {
           icon: 'mdi-view-dashboard-outline',
@@ -167,8 +166,7 @@ export default {
           to: '/gestion'
         }
       ],
-      miniVariant: true,
-      title: 'Cesi Shop'
+      miniVariant: true
     }
   },
   computed: {
@@ -176,6 +174,10 @@ export default {
       get () {
         return this.$store.getters['order/order']
       }
+    },
+
+    logo () {
+      return this.$vuetify.theme.dark ? 'http://localhost:3000/images/logoDark.svg' : 'http://localhost:3000/images/logoLight.svg'
     }
   },
   mounted () {
@@ -185,6 +187,29 @@ export default {
       this.$store.dispatch('menu/fetch', { token: this.$auth.getToken('local'), restaurant: this.$auth.user.restaurant._id })
       this.$store.dispatch('category/fetch', { token: this.$auth.getToken('local'), restaurant: this.$auth.user.restaurant._id })
     }
+
+    // On ecoute le socket
+    this.socket = this.$nuxtSocket({
+      name: 'main'
+    })
+
+    this.socket.on('article', (data) => {
+      if (data.update) {
+        this.$store.dispatch('article/fetch', {
+          token: this.$auth.getToken('local'),
+          restaurant: this.$auth.user.restaurant._id
+        })
+      }
+    })
+
+    this.socket.on('menu', (data) => {
+      if (data.update) {
+        this.$store.dispatch('menu/fetch', {
+          token: this.$auth.getToken('local'),
+          restaurant: this.$auth.user.restaurant._id
+        })
+      }
+    })
   },
   methods: {
     switchTheme () {

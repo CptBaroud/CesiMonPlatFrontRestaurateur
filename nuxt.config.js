@@ -34,6 +34,9 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    {
+      src: '~/plugins/apexChart.client.js', mode: 'client'
+    }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -88,14 +91,10 @@ export default {
     redirect: {
       login: '/login',
       logout: '/login',
-      user: '/profile',
+      user: '/profil',
       callback: '/login',
       home: '/'
     }
-  },
-
-  router: {
-    middleware: ['auth']
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

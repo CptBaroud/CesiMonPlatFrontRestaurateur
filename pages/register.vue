@@ -1,7 +1,7 @@
 <template>
   <v-container class="mt-2" style="min-height: 800px">
-    <v-row align="center" justify="start">
-      <v-col cols="4">
+    <v-row align="center" justify="center">
+      <v-col cols="4" class="mr-8">
         <v-card
           class="mt-24"
           flat
@@ -9,7 +9,7 @@
           color="background"
         >
           <v-card-title class="font-weight-bold text-h4">
-            Créer un compte
+            Se créer un compte
           </v-card-title>
           <v-card-text>
             <v-form class="mt-12">
@@ -69,6 +69,9 @@
           </v-card-actions>
         </v-card>
       </v-col>
+      <v-col cols="6">
+        <img width="1024" height="256" :src="logo" alt="Login">
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -98,6 +101,11 @@ export default {
         v => !!v || 'Il faut rentrer un numéro de télélphone',
         v => /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/.test(v) || 'Votre mot de passe doit contenir 8 Charactères dont une majuscule un chiffre et un charactère spécial'
       ]
+    }
+  },
+  computed: {
+    logo () {
+      return this.$vuetify.theme.dark ? 'http://localhost:3000/images/logoTextDark.svg' : 'http://localhost:3000/images/logoTextLight.svg'
     }
   },
   mounted () {
