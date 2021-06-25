@@ -3,7 +3,15 @@ export default {
     return state.categories
   },
 
-  restaurantCategories (state) {
-    return state.restaurantCategories
+  articleCategories (state) {
+    return state.categories.filter(i => i.type === 1)
+  },
+
+  menuCategories (state) {
+    return state.categories.filter(i => i.type === 2)
+  },
+
+  typeCategory (state) {
+    return state.typeCategory
   }
 }

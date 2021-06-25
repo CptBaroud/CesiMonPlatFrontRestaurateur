@@ -3,6 +3,10 @@ export default {
     state.categories = data
   },
 
+  setType (state, data) {
+    state.typeCategory = data
+  },
+
   addCategory (state, data) {
     state.categories.push(data)
   },

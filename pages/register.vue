@@ -3,7 +3,6 @@
     <v-row align="center" justify="center">
       <v-col cols="4" class="mr-8">
         <v-card
-          class="mt-24"
           flat
           rounded
           color="background"
@@ -13,6 +12,18 @@
           </v-card-title>
           <v-card-text>
             <v-form class="mt-12">
+              <v-list-item>
+                <v-list-item-icon>
+                  <v-icon>
+                    mdi-account
+                  </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    Informations de votre compte utilisateur
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
               <v-text-field
                 v-model="registerPayload.firstName"
                 :rules="requiredRules"
@@ -49,6 +60,36 @@
                 filled
                 label="Code de parrainage"
               />
+              <v-list-item>
+                <v-list-item-icon>
+                  <v-icon>
+                    mdi-office-building
+                  </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    Information du restaurant
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-text-field
+                v-model="registerPayload.restaurant.name"
+                class="mt-2"
+                :rules="requiredRules"
+                rounded
+                filled
+                label="Nom du restaurant"
+              />
+              <v-autocomplete
+                v-model="registerPayload.restaurant.type"
+                :rules="requiredRules"
+                :items="category"
+                item-value="type"
+                item-text="name"
+                rounded
+                filled
+                label="Type de restaurant"
+              />
             </v-form>
           </v-card-text>
           <v-card-actions>
@@ -56,15 +97,17 @@
             <v-btn
               color="primary"
               rounded
-              @click="login()"
+              @click="register()"
             >
-              Se connecter
+              Créer le compte
             </v-btn>
             <v-btn
               text
               rounded
+              nuxt
+              to="/login"
             >
-              S'inscrire
+              Se connecter
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -82,7 +125,8 @@ export default {
   data () {
     return {
       registerPayload: {
-        referalCode: ''
+        referalCode: '',
+        restaurant: {}
       },
 
       // Règles de vérification
@@ -104,6 +148,11 @@ export default {
     }
   },
   computed: {
+    category: {
+      get () {
+        return this.$store.getters['category/typeCategory']
+      }
+    },
     logo () {
       return this.$vuetify.theme.dark ? 'http://localhost:3000/images/logoTextDark.svg' : 'http://localhost:3000/images/logoTextLight.svg'
     }
@@ -112,23 +161,28 @@ export default {
     this.registerPayload.referalCode = this.$route.query.referalCode
   },
   methods: {
-    login () {
-      this.$auth.loginWith('local', {
-        data: {
-          email: this.email,
-          password: this.password
+    register () {
+      this.registerPayload.token = this.$auth.getToken('local')
+      this.$store.dispatch('user/createAccount', this.registerPayload).then((response) => {
+        if (response.status === 200) {
+          this.$auth.loginWith('local', {
+            data: {
+              email: this.registerPayload.email,
+              password: this.registerPayload.password
+            }
+          })
+            .then((response) => {
+              if (response.status !== 200) {
+                this.$toast.error(response.data.message)
+              }
+            })
+            .catch((err) => {
+              // eslint-disable-next-line no-console
+              console.error(err)
+              this.$toast.error(err.message)
+            })
         }
       })
-        .then((response) => {
-          if (response.status !== 200) {
-            this.$toast.error(response.data.message)
-          }
-        })
-        .catch((err) => {
-          // eslint-disable-next-line no-console
-          console.error(err)
-          this.$toast.error(err.message)
-        })
     }
   }
 }

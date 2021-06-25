@@ -19,6 +19,26 @@ export default {
     })
   },
 
+  createAccount (context, data) {
+    const token = data.token
+    delete data.token
+
+    return new Promise((resolve, reject) => {
+      axios.post(process.env.api_url + '/users/restaurant', data, {
+        headers: {
+          authorization: token
+        }
+      })
+        .then((response) => {
+          resolve(response)
+        }).catch((e) => {
+        // eslint-disable-next-line no-console
+          console.error(e)
+          reject(e)
+        })
+    })
+  },
+
   updateData (context, data) {
     const token = data.token
     delete data.token

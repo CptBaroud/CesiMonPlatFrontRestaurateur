@@ -689,7 +689,7 @@
               v-model="articleEditData.category"
               filled
               rounded
-              :items="category"
+              :items="articleCategories"
               label="Categorie"
             />
             <v-autocomplete
@@ -798,7 +798,7 @@
               v-model="menuEditData.category"
               filled
               rounded
-              :items="category"
+              :items="menuCategories"
               label="Categories"
             >
               <template #selection="data">
@@ -1081,6 +1081,14 @@ export default {
       }
     },
 
+    menuCategories () {
+      return this.$store.getters['category/menuCategories']
+    },
+
+    articleCategories () {
+      return this.$store.getters['category/articleCategories']
+    },
+
     articleLength () {
       return Math.ceil(this.article.length / this.articleItemPerPages)
     },
@@ -1097,13 +1105,13 @@ export default {
   },
   methods: {
     /**
-     * Filtre permettant d'overide la recherche de l'autocomplete
-     * On cherche par le nom de l'entreprise
-     * @param item
-     * @param queryText
-     * @param itemText
-     * @returns {boolean}
-     */
+       * Filtre permettant d'overide la recherche de l'autocomplete
+       * On cherche par le nom de l'entreprise
+       * @param item
+       * @param queryText
+       * @param itemText
+       * @returns {boolean}
+       */
     articleFilter (item, queryText, itemText) {
       return item.name.toLowerCase().includes(queryText.toLowerCase())
     },
@@ -1137,7 +1145,7 @@ export default {
           }
         })
         .catch((e) => {
-        // eslint-disable-next-line no-console
+          // eslint-disable-next-line no-console
           console.error(e)
           this.$toast.error(e.message)
         })
@@ -1160,7 +1168,7 @@ export default {
           }
         })
         .catch((e) => {
-        // eslint-disable-next-line no-console
+          // eslint-disable-next-line no-console
           console.error(e)
           this.$toast.error(e.message)
         })
@@ -1270,8 +1278,8 @@ export default {
     },
 
     /**
-     * Pour changer automatiquement le prix d'un menu
-     */
+       * Pour changer automatiquement le prix d'un menu
+       */
     updateMenuPrice () {
       this.menuAdd.price = 0
       this.menuAdd.article.forEach((item) => {
@@ -1286,73 +1294,92 @@ export default {
 >>> .theme--dark .v-data-table {
   background-color: var(--v-secondary-base) !important;
 }
+
 >>> .theme--light .v-data-table {
   background: var(--v-secondary-base) !important;
 }
+
 >>> .v-data-table table {
   border-collapse: separate;
   border-radius: 25px;
   background: var(--v-secondary-base) !important;
   margin-top: -4px; /* correct offset on first border spacing if desired */
 }
+
 >>> .v-data-table table th {
   background: var(--v-background-base);
   border-style: none;
 }
+
 >>> .v-data-table table th:first-child {
   border-top-left-radius: 28px;
 }
+
 >>> .v-data-table table th:last-child {
   border-top-right-radius: 28px;
 }
+
 >>> .v-data-table tbody {
   border-radius: 28px;
 }
+
 >>> .v-data-table td {
   border-style: none;
 }
+
 >>> .v-data-table tr {
   background: var(--v-secondary-base);
 }
+
 >>> .v-data-table__wrapper tr {
   background: var(--v-secondary-base);
 }
+
 >>> .v-data-table tr:hover {
   background: var(--v-background-base);
 }
+
 >>> .v-data-table tbody:hover {
   background: var(--v-background-base);
   cursor: pointer;
 }
+
 >>> .v-data-table__wrapper tr:hover {
   background: var(--v-background-base);
 }
+
 >>> .v-data-table tr:first-child td:first-child {
   border-top-left-radius: 0;
   border-bottom-left-radius: 28px;
 }
+
 >>> .v-data-table tr:first-child td:last-child {
   border-bottom-right-radius: 28px;
   border-top-right-radius: 0;
 }
+
 >>> .v-data-table tr:last-child td:first-child {
   border-top-left-radius: 28px;
   border-bottom-left-radius: 28px;
 }
+
 >>> .v-data-table tr:last-child td:last-child {
   border-bottom-right-radius: 28px;
   border-top-right-radius: 28px;
 }
+
 >>> .v-data-table td:first-child {
   border-left-style: none;
   border-top-left-radius: 28px;
   border-bottom-left-radius: 28px;
 }
+
 >>> .v-data-table td:last-child {
   border-right-style: none;
   border-bottom-right-radius: 28px;
   border-top-right-radius: 28px;
 }
+
 >>> .theme--light.v-data-table >
 .v-data-table__wrapper > table > tbody > tr:not(:last-child)
 > td:not(.v-data-table__mobile-row), .theme--light.v-data-table >
@@ -1360,6 +1387,7 @@ export default {
 th:not(.v-data-table__mobile-row) {
   border-bottom: none !important;
 }
+
 >>> .theme--dark.v-data-table >
 .v-data-table__wrapper > table > tbody > tr:not(:last-child)
 > td:not(.v-data-table__mobile-row), .theme--dark.v-data-table >
@@ -1367,18 +1395,23 @@ th:not(.v-data-table__mobile-row) {
 th:not(.v-data-table__mobile-row) {
   border-bottom: none !important;
 }
+
 >>> .theme--dark.v-data-table > .v-data-table__wrapper > table > thead > tr:last-child > th {
   border-bottom: none !important;
 }
+
 >>> .theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr:last-child > th {
   border-bottom: none !important;
 }
+
 >>> .theme--dark.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
   background: var(--v-background-base) !important;
 }
+
 >>> .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
   background: var(--v-background-base) !important;
 }
+
 >>> .v-data-table tbody tr.v-data-table__expanded__content {
   box-shadow: none;
 }
