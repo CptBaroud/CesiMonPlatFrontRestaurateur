@@ -27,7 +27,7 @@ export default {
     delete data.token
 
     return new Promise((resolve, reject) => {
-      axios.get(process.env.api_url + '/delivery/prepare', data, {
+      axios.put(process.env.api_url + '/delivery/prepare', data, {
         headers: {
           authorization: token
         }
