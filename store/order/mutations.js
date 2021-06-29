@@ -3,6 +3,10 @@ export default {
     state.order = data
   },
 
+  setOneOrder (state, data) {
+    state.oneOrder = data
+  },
+
   addOrder (state, data) {
     state.order.push(data)
   },

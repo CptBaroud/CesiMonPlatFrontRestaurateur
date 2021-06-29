@@ -158,6 +158,7 @@ export default {
     }
   },
   mounted () {
+    this.$store.dispatch('category/fetchRestaurantType', process.env.token)
     this.registerPayload.referalCode = this.$route.query.referalCode
   },
   methods: {

@@ -187,6 +187,7 @@ export default {
       this.$store.dispatch('article/fetch', { token: this.$auth.getToken('local'), restaurant: this.$auth.user.restaurant._id })
       this.$store.dispatch('menu/fetch', { token: this.$auth.getToken('local'), restaurant: this.$auth.user.restaurant._id })
       this.$store.dispatch('category/fetch', { token: this.$auth.getToken('local'), restaurant: this.$auth.user.restaurant._id })
+      this.$store.dispatch('delivery/fetch', { token: this.$auth.getToken('local'), restaurant: this.$auth.user.restaurant._id })
       this.$store.dispatch('category/fetchRestaurantType', this.$auth.getToken('local'))
     }
 

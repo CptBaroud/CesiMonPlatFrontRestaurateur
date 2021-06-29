@@ -20,7 +20,7 @@ export default {
     api_url: 'http://localhost:3000',
     clientUrl: 'http://localhost:8000',
     restaurantUrl: 'http://localhost:8001',
-    tokenTest: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjo1LCJjcmVhdGVkQXQiOiIyMDIxLTA2LTIxVDA4OjE3OjA1Ljc2N1oiLCJpYXQiOjE2MjQyNjM0MjUsImV4cCI6MTYyNDMwNjYyNX0.jptSLqOLfYfuBWQWALGWODx6JKZzNXbftPhPoxsBxl0'
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoiZ3VydmFuLnNldmVub0BnbWFpbC5jb20iLCJpZCI6MSwicm9sZSI6NSwiY3JlYXRlZEF0IjoiMjAyMS0wNi0yOFQxMTozODo1Ni4wNDlaIiwiaWF0IjoxNjI0ODgwMzM2LCJleHAiOjE2NTY0MTYzMzZ9.wfTJ5KTD1Q5up53J7s9kAy5ZTVYoHx_oy6TWc7DojT8'
   },
 
   server: {

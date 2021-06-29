@@ -6,7 +6,7 @@ export default {
     delete data.token
 
     return new Promise((resolve, reject) => {
-      axios.get(process.env.api_url + '/menu?restaurant=' + data.restaurant, {
+      axios.get(process.env.api_url + '/menu/restaurant/' + data.restaurant, {
         headers: {
           authorization: token
         }
