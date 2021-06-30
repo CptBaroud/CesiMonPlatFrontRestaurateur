@@ -1216,7 +1216,7 @@ export default {
         .catch((e) => {
           // eslint-disable-next-line no-console
           console.error(e)
-          this.$toast.error(e.message)
+          this.$toast.error(e)
         })
     },
 
