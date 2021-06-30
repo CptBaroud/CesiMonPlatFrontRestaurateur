@@ -53,7 +53,6 @@ export default {
         }
       }).then((response) => {
         const updatedUser = { ...this.$auth.user }
-        delete response.data._id
         updatedUser.restaurant = response.data
         this.$auth.setUser(updatedUser)
         resolve(response)

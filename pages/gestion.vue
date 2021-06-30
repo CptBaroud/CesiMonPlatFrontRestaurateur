@@ -63,6 +63,8 @@
                       v-model="menuAdd.category"
                       filled
                       rounded
+                      item-text="name"
+                      item-value="type"
                       :items="category"
                       label="Categories"
                     >
@@ -282,6 +284,8 @@
                       v-model="articleAdd.category"
                       filled
                       rounded
+                      item-text="name"
+                      item-value="type"
                       :items="category"
                       label="Categorie"
                     />

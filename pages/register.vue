@@ -84,7 +84,7 @@
                 v-model="registerPayload.restaurant.type"
                 :rules="requiredRules"
                 :items="category"
-                item-value="type"
+                item-value="name"
                 item-text="name"
                 rounded
                 filled
