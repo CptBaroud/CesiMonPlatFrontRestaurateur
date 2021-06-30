@@ -65,7 +65,7 @@
                       rounded
                       item-text="name"
                       item-value="_id"
-                      :items="category"
+                      :items="category.filter(i => i.type === 2)"
                       label="Categories"
                     >
                       <template #selection="data">
@@ -197,7 +197,7 @@
                     <v-btn
                       icon
                       small
-                      @click="deleteArticle(item)"
+                      @click="deleteMenu(item)"
                     >
                       <v-icon color="error">
                         mdi-delete-outline
@@ -286,7 +286,7 @@
                       rounded
                       item-text="name"
                       item-value="_id"
-                      :items="category"
+                      :items="category.filter(i => i.type === 1)"
                       label="Categorie"
                     />
                     <v-autocomplete
@@ -1268,6 +1268,13 @@ export default {
 
     deleteArticle (item) {
       this.$store.dispatch('article/delete', {
+        token: this.$auth.getToken('local'),
+        _id: item._id
+      })
+    },
+
+    deleteMenu (item) {
+      this.$store.dispatch('menu/delete', {
         token: this.$auth.getToken('local'),
         _id: item._id
       })

@@ -62,5 +62,26 @@ export default {
           reject(onerror)
         })
     })
+  },
+
+  delete (context, data) {
+    const token = data.token
+    delete data.token
+
+    return new Promise((resolve, reject) => {
+      axios.delete(process.env.api_url + '/menu/' + data._id, {
+        headers: {
+          authorization: token
+        }
+      })
+        .then((response) => {
+          context.commit('removeMenu', response.data)
+          resolve(response)
+        }).catch((e) => {
+        // eslint-disable-next-line no-console
+          console.error(e)
+          reject(onerror)
+        })
+    })
   }
 }
