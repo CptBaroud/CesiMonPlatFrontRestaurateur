@@ -446,17 +446,17 @@
             >
               <v-card-text>
                 <v-text-field
-                  v-model="restaurantData.name"
+                  v-model="restaurantName"
                   filled
                   rounded
                   placeholder="Prénom"
                 />
                 <v-textarea
-                  v-model="restaurantData.description"
+                  v-model="restaurantDescription"
                   filled
                   auto-grow
                   rounded
-                  placeholder="Nom"
+                  placeholder="Description du restaurant"
                 />
                 <v-list-item class="mb-4">
                   <v-list-item-avatar style="border: solid var(--v-primary-base) 2px" size="96">
@@ -1100,6 +1100,26 @@ export default {
     restaurantData: {
       get () {
         return this.$auth.user.restaurant
+      }
+    },
+
+    restaurantName: {
+      get () {
+        return this.$auth.user.restaurant.name
+      },
+
+      set (value) {
+        this.$store.dispatch('restaurant/updateData', { token: this.$auth.getToken('local'), _id: this.$auth.user.restaurant._id, name: value })
+      }
+    },
+
+    restaurantDescription: {
+      get () {
+        return this.$auth.user.restaurant.description
+      },
+
+      set (value) {
+        this.$store.dispatch('restaurant/updateData', { token: this.$auth.getToken('local'), _id: this.$auth.user.restaurant._id, description: value })
       }
     }
   },

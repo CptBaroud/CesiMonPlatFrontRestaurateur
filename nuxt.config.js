@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - Client',
+    titleTemplate: '%s - Restaurateur',
     title: 'Client',
     htmlAttrs: {
       lang: 'fr'
@@ -81,7 +81,7 @@ export default {
     strategies: {
       local: {
         endpoints: {
-          login: { url: '/auth/', method: 'post', propertyName: 'token' },
+          login: { url: '/auth/?origin=restaurant', method: 'post', propertyName: 'token' },
           logout: { url: '/auth/', method: 'delete' },
           user: { url: '/users/getRestaurantUser', method: 'get', propertyName: 'user' }
         },

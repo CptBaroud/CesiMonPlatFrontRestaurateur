@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container class="mt-2">
     <v-row>
       <v-col
         lg="6"
