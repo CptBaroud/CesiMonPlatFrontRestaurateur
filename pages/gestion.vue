@@ -64,7 +64,7 @@
                       filled
                       rounded
                       item-text="name"
-                      item-value="type"
+                      item-value="_id"
                       :items="category"
                       label="Categories"
                     >
@@ -285,7 +285,7 @@
                       filled
                       rounded
                       item-text="name"
-                      item-value="type"
+                      item-value="_id"
                       :items="category"
                       label="Categorie"
                     />
