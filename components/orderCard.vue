@@ -71,6 +71,8 @@ export default {
       type: Object,
       default () {
         return {
+          _id: '',
+          user: 0,
           restaurant: {
             name: ''
           },
@@ -125,10 +127,34 @@ export default {
 
     accept () {
       this.$store.dispatch('order/accept', { token: this.$auth.getToken('local'), _id: this.item._id })
+        .then((response) => {
+          if (response.status === 200) {
+            this.$store.dispatch('notification/create', {
+              token: this.$auth.getToken('local'),
+              user: this.item.user,
+              title: 'Votre commande à été acceptée par le restaurateur',
+              to: '',
+              type: 1,
+              icon: 'mdi-clipboard-text'
+            })
+          }
+        })
     },
 
     decline () {
       this.$store.dispatch('order/decline', { token: this.$auth.getToken('local'), _id: this.item._id })
+        .then((response) => {
+          if (response.status === 200) {
+            this.$store.dispatch('notification/create', {
+              token: this.$auth.getToken('local'),
+              user: this.item.user,
+              title: 'Votre commande à été refusée par le restaurateur',
+              to: '',
+              type: 2,
+              icon: 'mdi-clipboard-text'
+            })
+          }
+        })
     },
 
     icon (item) {

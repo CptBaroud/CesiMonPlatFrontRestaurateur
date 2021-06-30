@@ -118,6 +118,18 @@ export default {
 
     toPrep () {
       this.$store.dispatch('delivery/prepare', { token: this.$auth.getToken('local'), _id: this.item._id })
+        .then((response) => {
+          if (response.status === 200) {
+            this.$store.dispatch('notification/create', {
+              token: this.$auth.getToken('local'),
+              user: this.item.user,
+              title: 'La commande est en cours de préparation',
+              to: '',
+              type: 0,
+              icon: 'mdi-clipboard-text'
+            })
+          }
+        })
     },
 
     icon (item) {

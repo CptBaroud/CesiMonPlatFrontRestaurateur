@@ -205,6 +205,35 @@ export default {
       }
     })
 
+    this.socket.on('notification', (data) => {
+      if (data.update && data.user === this.$auth.user.id) {
+        this.$store.dispatch('notification/fetch', {
+          token: this.$auth.getToken('local'),
+          user: this.$auth.user.id
+        })
+        this.$toast.info(data.data.title)
+      }
+    })
+
+    this.socket.on('order', (data) => {
+      console.log('ORDER')
+      if (data.update) {
+        this.$store.dispatch('order/fetch', {
+          token: this.$auth.getToken('local'),
+          restaurant: this.$auth.user.restaurant._id
+        })
+      }
+    })
+
+    this.socket.on('delivery', (data) => {
+      if (data.update) {
+        this.$store.dispatch('delivery/fetch', {
+          token: this.$auth.getToken('local'),
+          restaurant: this.$auth.user.restaurant._id
+        })
+      }
+    })
+
     this.socket.on('menu', (data) => {
       if (data.update) {
         this.$store.dispatch('menu/fetch', {
