@@ -85,8 +85,8 @@
                 </v-icon>
               </v-badge>
             </template>
-            <!--<v-list rounded color="secondary" max-width="375">
-                <template v-for="(item, a) in notification">
+            <v-list rounded color="secondary" max-width="375">
+                <template v-for="(item, a) in notifications">
                   <notification
                     :key="a"
                     :notification="item"
@@ -99,7 +99,7 @@
                     </v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
-              </v-list>!-->
+              </v-list>
           </v-menu>
           <v-list color="background" dense rounded class="mr-8">
             <v-menu open-on-hover bottom offset-y>
@@ -139,7 +139,12 @@
 </template>
 
 <script>
+import notification from '../components/notification'
+
 export default {
+  components: {
+    notification
+  },
   data () {
     return {
       drawer: false,

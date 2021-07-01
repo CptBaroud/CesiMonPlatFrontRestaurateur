@@ -929,10 +929,6 @@ export default {
           value: 'ingredient'
         },
         {
-          text: 'Catégorie',
-          value: 'category'
-        },
-        {
           text: 'Prix',
           value: 'price'
         },
@@ -979,10 +975,6 @@ export default {
         {
           text: 'Articles',
           value: 'article'
-        },
-        {
-          text: 'Catégorie',
-          value: 'category'
         },
         {
           text: 'Prix',
