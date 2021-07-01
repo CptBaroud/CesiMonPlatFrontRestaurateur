@@ -707,20 +707,10 @@
               <v-chip
                 v-for="(item,i) in articleEditData.ingredient"
                 :key="i"
-                close
-                @click:close="pullIngredient(i)"
               >
                 {{ item }}
               </v-chip>
             </v-chip-group>
-            <v-text-field
-              v-model="articleIngredient"
-              filled
-              rounded
-              hint="Appuyer sur entré pour ajouter un ingredient"
-              label="Ingredient"
-              @keydown.enter="pushIngredient()"
-            />
             <v-text-field
               v-model="articleEditData.price"
               :rules="requiredRules"
@@ -832,7 +822,6 @@
               @change="updateMenuPrice"
             >
               <template #selection="data">
-                {{ data }}
                 <v-chip>
                   {{ data.item.name }}
                 </v-chip>
@@ -1274,6 +1263,15 @@ export default {
 
     pullIngredient (itemIndex) {
       this.articleAdd.ingredient.splice(itemIndex, 1)
+    },
+
+    pushEditIngredient () {
+      this.articleEditData.ingredient.push(this.articleIngredient)
+      this.articleIngredient = ''
+    },
+
+    pullEditIngredient (itemIndex) {
+      this.articleEditData.ingredient.splice(itemIndex, 1)
     },
 
     uploadPicture () {

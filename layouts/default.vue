@@ -86,20 +86,20 @@
               </v-badge>
             </template>
             <v-list rounded color="secondary" max-width="375">
-                <template v-for="(item, a) in notifications">
-                  <notification
-                    :key="a"
-                    :notification="item"
-                  />
-                </template>
-                <v-list-item to="/notifications" class="d-flex justify-center">
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      En voir plus
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list>
+              <template v-for="(item, a) in notifications">
+                <notification
+                  :key="a"
+                  :notification="item"
+                />
+              </template>
+              <v-list-item to="/notifications" class="d-flex justify-center">
+                <v-list-item-content>
+                  <v-list-item-title>
+                    En voir plus
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
           </v-menu>
           <v-list color="background" dense rounded class="mr-8">
             <v-menu open-on-hover bottom offset-y>
@@ -179,6 +179,12 @@ export default {
     order: {
       get () {
         return this.$store.getters['order/order']
+      }
+    },
+
+    notifications: {
+      get () {
+        return this.$store.getters['notification/notification']
       }
     },
 

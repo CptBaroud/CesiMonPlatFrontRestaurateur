@@ -40,5 +40,42 @@ export default {
           reject(onerror)
         })
     })
+  },
+  seen: (context, data) => {
+    const token = data.token
+    delete data.token
+
+    return new Promise((resolve, reject) => {
+      axios.put(process.env.api_url + '/notification/seen', data, {
+        headers: {
+          authorization: token
+        }
+      })
+        .then((response) => {
+          context.commit('edit', response.data)
+          resolve(response)
+        }).catch((error) => {
+          reject(error)
+        })
+    })
+  },
+
+  read: (context, data) => {
+    const token = data.token
+    delete data.token
+
+    return new Promise((resolve, reject) => {
+      axios.put(process.env.api_url + '/notification/read', data, {
+        headers: {
+          authorization: token
+        }
+      })
+        .then((response) => {
+          context.commit('edit', response.data)
+          resolve(response)
+        }).catch((error) => {
+          reject(error)
+        })
+    })
   }
 }
