@@ -18,8 +18,7 @@ export default {
 
   env: {
     api_url: 'http://localhost:3000',
-    clientUrl: 'http://localhost:8000',
-    restaurantUrl: 'http://localhost:8001',
+    client_url: 'http://127.0.0.2:8000',
     token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoiZ3VydmFuLnNldmVub0BnbWFpbC5jb20iLCJpZCI6MSwicm9sZSI6NSwiY3JlYXRlZEF0IjoiMjAyMS0wNi0yOFQxMTozODo1Ni4wNDlaIiwiaWF0IjoxNjI0ODgwMzM2LCJleHAiOjE2NTY0MTYzMzZ9.wfTJ5KTD1Q5up53J7s9kAy5ZTVYoHx_oy6TWc7DojT8'
   },
 
