@@ -39,6 +39,26 @@ export default {
     })
   },
 
+  delete (context, data) {
+    const token = data.token
+    delete data.token
+
+    return new Promise((resolve, reject) => {
+      axios.delete(process.env.api_url + '/users/' + data.user, {
+        headers: {
+          authorization: token
+        }
+      })
+        .then((response) => {
+          resolve(response)
+        }).catch((e) => {
+        // eslint-disable-next-line no-console
+          console.error(e)
+          reject(e)
+        })
+    })
+  },
+
   updateData (context, data) {
     const token = data.token
     delete data.token
@@ -67,7 +87,7 @@ export default {
     delete data.token
 
     return new Promise((resolve, reject) => {
-      axios.post(process.env.api_url + '/users/profilePicture', data, {
+      axios.put(process.env.api_url + '/users/profilePicture/' + data.user.id, data, {
         headers: {
           authorization: token
         }

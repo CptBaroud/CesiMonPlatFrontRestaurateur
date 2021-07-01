@@ -78,6 +78,8 @@ export default {
         .then((response) => {
           if (response.status !== 200) {
             this.$toast.error(response.data.message)
+          } else {
+            this.$toast.success('Vous êtes connecté')
           }
         })
         .catch((err) => {

@@ -502,7 +502,7 @@
           </v-card-text>
         </v-card>
         <!-- Category card -->
-        <v-card
+        <!--<v-card
           class="mt-2"
           color="background"
           flat
@@ -650,7 +650,7 @@
               </v-card-text>
             </v-card>
           </v-card-text>
-        </v-card>
+        </v-card>-->
       </v-col>
     </v-row>
 
@@ -824,7 +824,6 @@
             <v-autocomplete
               v-model="menuEditData.article"
               multiple
-              :filter="articleFilter"
               :rules="requiredRules"
               filled
               rounded
@@ -833,21 +832,17 @@
               @change="updateMenuPrice"
             >
               <template #selection="data">
+                {{ data }}
                 <v-chip>
                   {{ data.item.name }}
                 </v-chip>
               </template>
               <template #item="data">
-                <template v-if="typeof data.item !== 'object'">
-                  <v-list-item-content v-text="data.item" />
-                </template>
-                <template v-else>
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      {{ data.item.name }}
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </template>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    {{ data.item.name }}
+                  </v-list-item-title>
+                </v-list-item-content>
               </template>
             </v-autocomplete>
             <v-text-field
